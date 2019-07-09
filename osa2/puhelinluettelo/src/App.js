@@ -75,6 +75,9 @@ const App = () => {
           setPersons(persons.filter(person => person.id !== id))
           showSuccessMessage(`Deleted ${person.name}`)
         })
+        .catch(error => {
+          showSuccessMessage(`Error: Information of ${person.name} has already been deleted from server`)
+        })
     }
   }
   
@@ -91,13 +94,15 @@ const App = () => {
     
     if (successMessage === null) {
       return null
+    } else if (successMessage.includes('Error')) {
+      notificationStyle.color = 'red'
     }
     
     return (
       <div style={notificationStyle}>
         {successMessage}
       </div>
-    )
+    );
   }
   
   return (
