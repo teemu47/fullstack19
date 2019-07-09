@@ -6,6 +6,7 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [filter, setFilter] = useState('')
+  const [successMessage, setSuccessMessage] = useState(null)
   const personsToShow = persons.filter(person => person.name.toLowerCase().indexOf(filter) >= 0)
   
   useEffect(() => {
@@ -25,6 +26,7 @@ const App = () => {
         personService
           .update(oldPerson.id, changedPerson)
           .then(returnedPerson => {
+            showSuccessMessage(`Changed ${returnedPerson.name}'s number`)
             setPersons(persons.map(p => p.id !== oldPerson.id ? p : returnedPerson))
             setNewName('')
             setNewNumber('')
@@ -39,6 +41,7 @@ const App = () => {
       personService
         .create(newPerson)
         .then(newPerson => {
+          showSuccessMessage(`Added ${newPerson.name}`)
           setPersons(persons.concat(newPerson))
           setNewName('')
           setNewNumber('')
@@ -56,6 +59,13 @@ const App = () => {
     setFilter(event.target.value)
   }
   
+  const showSuccessMessage = (message) => {
+    setSuccessMessage(message)
+    setTimeout(() => {
+      setSuccessMessage(null)
+    }, 4000)
+  }
+  
   const removePerson = id => {
     const person = persons.find(p => p.id === id)
     if (window.confirm(`Are you sure you want to delete ${person.name}?`)) {
@@ -63,13 +73,37 @@ const App = () => {
         .remove(id)
         .then(response => {
           setPersons(persons.filter(person => person.id !== id))
+          showSuccessMessage(`Deleted ${person.name}`)
         })
     }
+  }
+  
+  const Notification = () => {
+    const notificationStyle = {
+      color: 'green',
+      background: 'lightgrey',
+      fontSize: 20,
+      borderStyle: 'solid',
+      borderRadius: 5,
+      padding: 10,
+      marginBottom: 10
+    }
+    
+    if (successMessage === null) {
+      return null
+    }
+    
+    return (
+      <div style={notificationStyle}>
+        {successMessage}
+      </div>
+    )
   }
   
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification/>
       
       <Filter
         filter={filter}
