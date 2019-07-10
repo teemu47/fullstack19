@@ -18,6 +18,10 @@ const App = () => {
     setFilter(event.target.value)
   }
   
+  const showCountry = (country) => {
+    setFilter(country.toLowerCase())
+  }
+  
   const pageStyle = {
     margin: 5
   }
@@ -30,12 +34,13 @@ const App = () => {
       />
       <Countries
         countryList={countriesToShow}
+        showCountry={showCountry}
       />
     </div>
   )
 }
 
-const Countries = ({countryList}) => {
+const Countries = ({countryList, showCountry}) => {
   if (countryList.length > 10) {
     return (
       <div>
@@ -44,7 +49,7 @@ const Countries = ({countryList}) => {
     )
   } else if (countryList.length > 1) {
     return (
-      countryList.map(country => <div key={country.name}>{country.name}</div>)
+      countryList.map(country => <div key={country.name}>{country.name} <button onClick={() => showCountry(country.name)}>show</button></div>)
     )
   } else {
     return (
