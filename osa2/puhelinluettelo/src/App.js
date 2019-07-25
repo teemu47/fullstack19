@@ -6,7 +6,7 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [filter, setFilter] = useState('')
-  const [successMessage, setSuccessMessage] = useState(null)
+  const [notification, setNotification] = useState(null)
   const personsToShow = persons.filter(person => person.name.toLowerCase().indexOf(filter) >= 0)
   
   useEffect(() => {
@@ -26,7 +26,7 @@ const App = () => {
         personService
           .update(oldPerson.id, changedPerson)
           .then(returnedPerson => {
-            showSuccessMessage(`Changed ${returnedPerson.name}'s number`)
+            showNotification(`Changed ${returnedPerson.name}'s number`)
             setPersons(persons.map(p => p.id !== oldPerson.id ? p : returnedPerson))
             setNewName('')
             setNewNumber('')
@@ -41,11 +41,14 @@ const App = () => {
       personService
         .create(newPerson)
         .then(newPerson => {
-          showSuccessMessage(`Added ${newPerson.name}`)
+          showNotification(`Added ${newPerson.name}`)
           setPersons(persons.concat(newPerson))
           setNewName('')
           setNewNumber('')
           setFilter('')
+        })
+        .catch(error => {
+          showNotification(`Error: ${error.response.data.error}`)
         })
     }
   }
@@ -59,10 +62,10 @@ const App = () => {
     setFilter(event.target.value)
   }
   
-  const showSuccessMessage = (message) => {
-    setSuccessMessage(message)
+  const showNotification = (message) => {
+    setNotification(message)
     setTimeout(() => {
-      setSuccessMessage(null)
+      setNotification(null)
     }, 4000)
   }
   
@@ -73,10 +76,10 @@ const App = () => {
         .remove(id)
         .then(response => {
           setPersons(persons.filter(person => person.id !== id))
-          showSuccessMessage(`Deleted ${person.name}`)
+          showNotification(`Deleted ${person.name}`)
         })
         .catch(error => {
-          showSuccessMessage(`Error: Information of ${person.name} has already been deleted from server`)
+          showNotification(`Error: Information of ${person.name} has already been deleted from server`)
         })
     }
   }
@@ -92,15 +95,15 @@ const App = () => {
       marginBottom: 10
     }
     
-    if (successMessage === null) {
+    if (notification === null) {
       return null
-    } else if (successMessage.includes('Error')) {
+    } else if (notification.includes('Error')) {
       notificationStyle.color = 'red'
     }
     
     return (
       <div style={notificationStyle}>
-        {successMessage}
+        {notification}
       </div>
     );
   }
