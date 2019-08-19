@@ -84,7 +84,7 @@ describe('favourite blog', () => {
     expect(listHelper.favouriteBlog(emptyList)).toEqual({})
   })
   
-  test('is the one when list has only one blog', () => {
+  test('is the one when list has only one blog in list', () => {
     expect(listHelper.favouriteBlog(listWithOneBlog)).toEqual({
       title: 'Go To Statement Considered Harmful',
       author: 'Edsger W. Dijkstra',
@@ -99,5 +99,22 @@ describe('favourite blog', () => {
       likes: 12
     })
   })
+})
 
+describe('most blogs', () => {
+  test('is {} with empty list', () => {
+    expect(listHelper.mostBlogs(emptyList)).toEqual({})
+  })
+  test('is the one with only one blog in list', () => {
+    expect(listHelper.mostBlogs(listWithOneBlog)).toEqual({
+      author: 'Edsger W. Dijkstra',
+      blogs: 1
+    })
+  })
+  test('is the one with most blogs with bigger list', () => {
+    expect(listHelper.mostBlogs(biggerList)).toEqual({
+      "author": "Robert C. Martin",
+      "blogs": 3
+    })
+  })
 })

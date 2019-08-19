@@ -14,8 +14,33 @@ const favouriteBlog = (blogs) => {
   return favouriteBlog
 }
 
+const mostBlogs = (blogs) => {
+  const authors = blogs.reduce((list, blog) => {
+    let author = list.find((entry) => entry.author === blog.author)
+    if (!author) {
+      author = {
+        author: blog.author,
+        blogs: 0
+      }
+      list.push(author)
+    }
+    author.blogs += 1
+    return list
+  }, [])
+  
+  const authorWithMostBlogs = authors.reduce((mostBlogs, author) => {
+    if ((Object.keys(mostBlogs).length === 0 && mostBlogs.constructor === Object) || author.blogs > mostBlogs.blogs) {
+      mostBlogs = author
+    }
+    return mostBlogs
+  }, {})
+  
+  return authorWithMostBlogs
+}
+
 module.exports = {
   dummy,
   totalLikes,
-  favouriteBlog
+  favouriteBlog,
+  mostBlogs
 }
