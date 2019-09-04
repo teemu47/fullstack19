@@ -113,8 +113,26 @@ describe('most blogs', () => {
   })
   test('is the one with most blogs with bigger list', () => {
     expect(listHelper.mostBlogs(biggerList)).toEqual({
-      "author": "Robert C. Martin",
-      "blogs": 3
+      author: "Robert C. Martin",
+      blogs: 3
+    })
+  })
+})
+
+describe('most likes', () => {
+  test('is {} with empty list', () => {
+    expect(listHelper.mostLikes(emptyList)).toEqual({})
+  })
+  test('is the one with only one blog in list', () => {
+    expect(listHelper.mostLikes(listWithOneBlog)).toEqual({
+      author: 'Edsger W. Dijkstra',
+      likes: 5
+    })
+  })
+  test('is the one with most likes with bigger list', () => {
+    expect(listHelper.mostLikes(biggerList)).toEqual({
+      author: 'Edsger W. Dijkstra',
+      likes: 17
     })
   })
 })
