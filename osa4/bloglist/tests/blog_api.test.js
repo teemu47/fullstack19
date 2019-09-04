@@ -57,19 +57,43 @@ test('blogs are returned as json', async () => {
 
 test('all blogs are returned', async () => {
   const response = await api.get('/api/blogs')
+  
   expect(response.body.length).toBe(initialBlogs.length)
 })
 
 test('a specific blog is within the returned blogs', async () => {
   const response = await api.get('/api/blogs')
   const titles = response.body.map(x => x.title)
+  
   expect(titles).toContain('First class tests')
 })
 
 test('identification field of a blog is named as "id"', async () => {
   const response = await api.get('/api/blogs')
   const blog = response.body[0]
+  
   expect(blog.id).toBeDefined()
+})
+
+test('blog can be added', async () => {
+  const newBlog = {
+    title: 'A nice blog',
+    author: 'Teemu',
+    url: 'www.teemu.com/blog',
+    likes: 100
+  }
+  
+  await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(201)
+    .expect('Content-Type', /application\/json/)
+  
+  const response = await api.get('/api/blogs')
+  const titles = response.body.map(x => x.title)
+  
+  expect(titles.length).toBe(initialBlogs.length + 1)
+  expect(titles).toContain('A nice blog')
 })
 
 afterAll(() => {
