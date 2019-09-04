@@ -138,6 +138,18 @@ test('api should respond with status code 400 if title and author are not define
     .expect(400)
 })
 
+test('blog can be deleted', async () => {
+  const response = await api.get('/api/blogs')
+  const ids = response.body.map(x => x.id)
+  
+  await api
+    .delete('/api/blogs/' + ids[0])
+    .expect(204)
+  
+  const newResponse = await api.get('/api/blogs')
+  expect(newResponse.body.length).toBe(initialBlogs.length - 1)
+})
+
 afterAll(() => {
   mongoose.connection.close()
 })
