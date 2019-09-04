@@ -5,7 +5,6 @@ const totalLikes = (blogs) => blogs.reduce((sum, blog) => sum += blog.likes, 0)
 const favouriteBlog = (blogs) => {
   const result = blogs.reduce((prev, next) => prev.likes > next.likes ? prev : next, {})
   return (({title, author, likes}) => ({title, author, likes})) (result)
-  // return {title: result.title, author: result.author, likes: result.likes}
 }
 
 const mostBlogs = (blogs) => {
@@ -18,7 +17,6 @@ const mostBlogs = (blogs) => {
     author.blogs++
     return list
   }, [])
-  
   const authorWithMostBlogs = authors.reduce((prev, next) => prev.blogs > next.blogs ? prev : next, {})
   return authorWithMostBlogs
 }
