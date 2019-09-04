@@ -140,14 +140,30 @@ test('api should respond with status code 400 if title and author are not define
 
 test('blog can be deleted', async () => {
   const response = await api.get('/api/blogs')
-  const ids = response.body.map(x => x.id)
+  const firstId = response.body.map(x => x.id)[0]
   
   await api
-    .delete('/api/blogs/' + ids[0])
+    .delete('/api/blogs/' + firstId)
     .expect(204)
   
   const newResponse = await api.get('/api/blogs')
   expect(newResponse.body.length).toBe(initialBlogs.length - 1)
+})
+
+test('blog can be modified', async () => {
+  const blog = {
+    likes: 99
+  }
+  const response = await api.get('/api/blogs')
+  const firstId = response.body.map(x => x.id)[0]
+  
+  await api
+    .put('/api/blogs/' + firstId)
+    .send(blog)
+    .expect(200)
+  
+  const updatedBlog = await Blog.findById(firstId)
+  expect(updatedBlog.likes).toBe(99)
 })
 
 afterAll(() => {
