@@ -22,7 +22,9 @@ blogRouter.post('/', async (request, response) => {
     const savedBlog = await blog.save()
     response.status(201).json(savedBlog.toJSON)
   } catch (exception) {
-    next(exception)
+    if (exception.name === 'ValidationError') {
+      response.status(400).json({error: exception.message})
+    }
   }
 })
 

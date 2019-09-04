@@ -114,7 +114,28 @@ test('likes should be 0 when adding a blog wihtout likes', async () => {
   
   expect(blog.likes).toBeDefined()
   expect(blog.likes).toBe(0)
+})
+
+test('api should respond with status code 400 if title and author are not defined', async () => {
+  const blogWithoutTitle = {
+    author: 'Teemu',
+    url: 'www.teemu.com/blogWithoutLikes',
+  }
   
+  const blogWithoutAuthor = {
+    title: 'Blog without a title',
+    url: "www.teemu.com/blogWithoutAuthor"
+  }
+  
+  await api
+    .post('/api/blogs')
+    .send(blogWithoutTitle)
+    .expect(400)
+  
+  await api
+    .post('/api/blogs')
+    .send(blogWithoutAuthor)
+    .expect(400)
 })
 
 afterAll(() => {
