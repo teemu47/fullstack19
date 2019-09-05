@@ -1,3 +1,4 @@
+const jwt = require('jsonwebtoken')
 
 const errorHandler = (error, request, response, next) => {
   console.error(error.message)
@@ -23,7 +24,6 @@ const tokenExtractor = (request, response, next) => {
   request.token = token
   next()
 }
-
 
 module.exports = {
   errorHandler,
