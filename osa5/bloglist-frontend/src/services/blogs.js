@@ -11,4 +11,4 @@ const setToken = newToken => {
   token = `bearer ${newToken}`
 }
 
-export default { getAll }
+export default { getAll, setToken }
