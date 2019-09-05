@@ -10,6 +10,12 @@ userRouter.get('/', async (request, response) => {
 userRouter.post('/', async(request, response, next) => {
   try {
     const body = request.body
+    
+    if (body.password.length < 3) {
+      console.error('User validation failed: Too short password')
+      return response.status(400).json({error: 'User validation failed: Too short password'})
+    }
+    
     const saltRounds = 10
     const passwordHash = await bcrypt.hash(body.password, saltRounds)
   
@@ -24,7 +30,6 @@ userRouter.post('/', async(request, response, next) => {
   } catch (e) {
     next(e)
   }
-  
 })
 
 
