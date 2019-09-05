@@ -23,7 +23,7 @@ const App = () => {
     
   }
   
-  if (user === null) {
+  const loginForm = () => {
     return (
       <div>
         <h2>Log in to application</h2>
@@ -50,20 +50,30 @@ const App = () => {
     )
   }
   
+  const bloglist = () => {
+    return (
+      <div>
+        <h2>blogs</h2>
+        <div>
+          {user.name} logged in
+        </div>
+        <br/>
+        <div>
+          {blogs.map(blog =>
+            <Blog key={blog.id} blog={blog} />
+          )}
+        </div>
+      </div>
+    )
+  }
+  
   return (
     <div>
-      <h2>blogs</h2>
-      <div>
-        {user.name} logged in
-      </div>
-      <br/>
-      <div>
-        {blogs.map(blog =>
-          <Blog key={blog.id} blog={blog} />
-        )}
-      </div>
+      {user === null && loginForm()}
+      {user !== null && bloglist()}
     </div>
   )
+  
 }
 
 export default App
