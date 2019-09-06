@@ -71,6 +71,12 @@ const App = () => {
     }
   }
   
+  const addLikeToBlog = async (blogId) => {
+    let updatedBlog = blogs.find(b => b.id === blogId)
+    updatedBlog.likes++
+    return await blogService.updateBlog(updatedBlog)
+  }
+  
   const showNotification = (notification) => {
     setNotification(notification)
     setTimeout(() => {
@@ -130,7 +136,7 @@ const App = () => {
         
         <div>
           {blogs.map(blog =>
-            <Blog key={blog.id} blog={blog} />
+            <Blog key={blog.id} blog={blog} addLike={addLikeToBlog}/>
           )}
         </div>
       </div>
