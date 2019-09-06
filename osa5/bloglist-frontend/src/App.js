@@ -26,11 +26,13 @@ const App = () => {
         const user = JSON.parse(loggedInUserJSON)
         blogService.setToken(user.token)
         setUser(user)
+        blogs.sort((prev, next) => next.likes - prev.likes)
         setBlogs(blogs)
       }
     }
     logIn()
   }, [])
+  
   
   const handleLogin = async (event) => {
     event.preventDefault()
