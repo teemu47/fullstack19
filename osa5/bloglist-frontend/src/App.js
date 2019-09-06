@@ -3,12 +3,14 @@ import Blog from './components/Blog'
 import loginService from './services/login'
 import blogService from './services/blogs'
 import CreateBlogForm from './components/CreateBlogForm'
+import Notification from './components/Notification'
 
 const App = () => {
   const [user, setUser] = useState(null)
   const [blogs, setBlogs] = useState([])
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
+  const [notification, setNotification] = useState(null)
   
   useEffect(() => {
     async function logIn() {
@@ -35,6 +37,7 @@ const App = () => {
       setUsername('')
       setPassword('')
     } catch (e) {
+      showNotification('error: wrong username or password')
       console.error(e)
     }
   }
@@ -49,15 +52,25 @@ const App = () => {
     try {
       const savedBlog = await blogService.createBlog(newBlog)
       setBlogs(blogs.concat(savedBlog))
+      showNotification(`a new blog ${savedBlog.title} by ${savedBlog.author}`)
     } catch (e) {
+      showNotification(`error: couldn't create a new blog`)
       console.error(e)
     }
+  }
+  
+  const showNotification = (notification) => {
+    setNotification(notification)
+    setTimeout(() => {
+      setNotification(null)
+    }, 3000)
   }
   
   const loginForm = () => {
     return (
       <div>
         <h2>Log in to application</h2>
+        <Notification notification={notification} />
         <form onSubmit={handleLogin}>
           <div>
             username
@@ -85,6 +98,7 @@ const App = () => {
     return (
       <div>
         <h2>blogs</h2>
+        <Notification notification={notification} />
         <div>
           {user.name} logged in <button onClick={handleLogout}>logout</button>
         </div>
