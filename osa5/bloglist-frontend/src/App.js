@@ -73,10 +73,19 @@ const App = () => {
     }
   }
   
-  const addLikeToBlog = async (blogId) => {
+  const addLikeToBlog = async blogId => {
     let updatedBlog = blogs.find(b => b.id === blogId)
     updatedBlog.likes++
     return await blogService.updateBlog(updatedBlog)
+  }
+  
+  const deleteBlog = async blogId => {
+    try {
+      await blogService.deleteBlog(blogId)
+      setBlogs(blogs.filter(b => b.id !== blogId))
+    } catch (e) {
+      console.error(e)
+    }
   }
   
   const showNotification = (notification) => {
@@ -138,7 +147,8 @@ const App = () => {
         
         <div>
           {blogs.map(blog =>
-            <Blog key={blog.id} blog={blog} addLike={addLikeToBlog}/>
+            <Blog key={blog.id} blog={blog} user={user}
+                  addLike={addLikeToBlog} deleteBlog={deleteBlog}/>
           )}
         </div>
       </div>
