@@ -79,15 +79,15 @@ const App = () => {
   }
   
   const blogForm = () => (
-      <Togglable buttonLabel={'new blog'} ref={blogFormRef}>
-        <BlogForm title={title} author={author} url={url}
-                  handleSubmit={createBlog}
-                  handleAuthorChange={({target}) => setAuthor(target.value)}
-                  handleTitleChange={({target}) => setTitle(target.value)}
-                  handleUrlChange={({target}) => setUrl(target.value)}
-        />
-      </Togglable>
-    )
+    <Togglable buttonLabel={'new blog'} ref={blogFormRef}>
+      <BlogForm title={title} author={author} url={url}
+                handleSubmit={createBlog}
+                handleAuthorChange={({target}) => setAuthor(target.value)}
+                handleTitleChange={({target}) => setTitle(target.value)}
+                handleUrlChange={({target}) => setUrl(target.value)}
+      />
+    </Togglable>
+  )
   
   const loginForm = () => {
     return (
