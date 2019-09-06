@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react'
 import Blog from './components/Blog'
 import loginService from './services/login'
 import blogService from './services/blogs'
@@ -37,7 +37,7 @@ const App = () => {
   const handleLogin = async (event) => {
     event.preventDefault()
     try {
-      const user = await loginService.login({username, password})
+      const user = await loginService.login({ username, password })
       window.localStorage.setItem('loggedInUser', JSON.stringify(user))
       blogService.setToken(user.token)
       setBlogs(await blogService.getAll())
@@ -60,7 +60,7 @@ const App = () => {
     event.preventDefault()
     blogFormRef.current.toggleVisibility()
     try {
-      const newBlog = {title, author, url}
+      const newBlog = { title, author, url }
       const savedBlog = await blogService.createBlog(newBlog)
       setBlogs(blogs.concat(savedBlog))
       showNotification(`a new blog ${savedBlog.title} by ${savedBlog.author}`)
@@ -68,7 +68,7 @@ const App = () => {
       setAuthor('')
       setUrl('')
     } catch (e) {
-      showNotification(`error: couldn't create a new blog`)
+      showNotification('error: couldn\'t create a new blog')
       console.error(e)
     }
   }
@@ -99,9 +99,9 @@ const App = () => {
     <Togglable buttonLabel={'new blog'} ref={blogFormRef}>
       <BlogForm title={title} author={author} url={url}
                 handleSubmit={createBlog}
-                handleAuthorChange={({target}) => setAuthor(target.value)}
-                handleTitleChange={({target}) => setTitle(target.value)}
-                handleUrlChange={({target}) => setUrl(target.value)}
+                handleAuthorChange={({ target }) => setAuthor(target.value)}
+                handleTitleChange={({ target }) => setTitle(target.value)}
+                handleUrlChange={({ target }) => setUrl(target.value)}
       />
     </Togglable>
   )
@@ -117,7 +117,7 @@ const App = () => {
             <input type={'text'}
                    value={username}
                    name={'Username'}
-                   onChange={({target}) => setUsername(target.value)}
+                   onChange={({ target }) => setUsername(target.value)}
             />
           </div>
           <div>
@@ -125,7 +125,7 @@ const App = () => {
             <input type={'password'}
                    value={password}
                    name={'Password'}
-                   onChange={({target}) => setPassword(target.value)}
+                   onChange={({ target }) => setPassword(target.value)}
             />
           </div>
           <button type={'submit'}>login</button>

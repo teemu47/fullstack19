@@ -3,16 +3,16 @@ import React, { useState } from 'react'
 const Blog = ({ blog, addLike, deleteBlog, user }) => {
   const [fullInfo, setFullInfo] = useState(false)
   const [likes, setLikes] = useState(blog.likes)
-  
+
   const toggleFullInfo = () => {
     setFullInfo(!fullInfo)
   }
-  
+
   const updateLikes = async () => {
     const updatedBlog = await addLike(blog.id)
     setLikes(updatedBlog.likes)
   }
-  
+
   const handleDelete = () => {
     if (window.confirm(`remove blog ${blog.title} by ${blog.author}`)) {
       deleteBlog(blog.id)
@@ -22,9 +22,9 @@ const Blog = ({ blog, addLike, deleteBlog, user }) => {
     display: user.username === blog.user.username ? '' : 'none',
     color: 'red'
   }
-  
+
   const showFullInfo = { display: fullInfo ? '': 'none' }
-  
+
   const blogStyle = {
     border: 'solid',
     borderWidth: 2,
@@ -34,11 +34,11 @@ const Blog = ({ blog, addLike, deleteBlog, user }) => {
     marginBottom: 10,
     marginTop: 10
   }
-  
+
   const pointerStyle = {
     cursor: 'pointer'
   }
-  
+
   return (
     <div style={blogStyle}>
       <div onClick={toggleFullInfo} style={pointerStyle}>

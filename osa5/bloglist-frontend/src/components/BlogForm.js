@@ -2,22 +2,21 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 const BlogForm = ({ handleSubmit,
-                          handleTitleChange,
-                          handleAuthorChange,
-                          handleUrlChange,
-                          title,
-                          author,
-                          url
-                        }) => {
-  
+                    handleTitleChange,
+                    handleAuthorChange,
+                    handleUrlChange,
+                    title,
+                    author,
+                    url
+                  }) => {
+
   return (
     <div>
       <h2>Create a new blog</h2>
       <form onSubmit={handleSubmit}>
         <div>
           title
-          <input type={'text'}
-                 value={title}
+          <input type={'text'} value={title}
                  name={'Title'}
                  onChange={handleTitleChange}
           />
