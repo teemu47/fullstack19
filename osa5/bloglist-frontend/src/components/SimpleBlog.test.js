@@ -19,8 +19,8 @@ test('renders content', () => {
     )
   
   // component.debug()
-  const div = component.container.querySelector('div')
-  console.log(prettyDOM(div))
+  // const div = component.container.querySelector('div')
+  // console.log(prettyDOM(div))
   
   expect(component.container).toHaveTextContent(
     simpleBlog.title && simpleBlog.author && `blog has ${simpleBlog.likes} likes`
