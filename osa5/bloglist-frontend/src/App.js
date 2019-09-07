@@ -6,6 +6,7 @@ import BlogForm from './components/BlogForm'
 import Notification from './components/Notification'
 import Togglable from './components/Togglable'
 
+
 const App = () => {
   const [user, setUser] = useState(null)
   const [blogs, setBlogs] = useState([])
