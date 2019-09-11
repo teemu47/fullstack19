@@ -3,7 +3,7 @@ import { render, fireEvent } from '@testing-library/react'
 import { prettyDOM } from '@testing-library/react'
 import SimpleBlog from './SimpleBlog'
 
-describe('SimpleBlog component', () => {
+describe('<SimpleBlog />', () => {
   
   const simpleBlog = {
     title: 'Testing React',

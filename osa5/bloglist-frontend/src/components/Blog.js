@@ -44,7 +44,7 @@ const Blog = ({ blog, addLike, deleteBlog, user }) => {
       <div onClick={toggleFullInfo} style={pointerStyle}>
         {blog.title} {blog.author}
       </div>
-      <div style={showFullInfo}>
+      <div style={showFullInfo} className={'blogFullInfo'}>
         <div><a href={blog.url} target={'_blank'}>{blog.url}</a></div>
         <div>{likes} likes <button style={pointerStyle} onClick={updateLikes}>like</button></div>
         <div>added by {blog.user.name}</div>
