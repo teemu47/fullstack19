@@ -1,9 +1,9 @@
 import React from 'react'
-import { render } from '@testing-library/react'
+import { render, fireEvent } from '@testing-library/react'
 import { prettyDOM } from '@testing-library/react'
 import SimpleBlog from './SimpleBlog'
 
-test('renders content', () => {
+describe('SimpleBlog component', () => {
   
   const simpleBlog = {
     title: 'Testing React',
@@ -12,18 +12,32 @@ test('renders content', () => {
     likes: 22
   }
   
-  const mockFunction = () => {}
+  const mockHandler = jest.fn()
   
-  const component = render(
-    <SimpleBlog blog={simpleBlog} onClick={mockFunction}/>
+  
+  test('renders content', () => {
+    const component = render(
+      <SimpleBlog blog={simpleBlog} onClick={mockHandler}/>
     )
+    
+    expect(component.container).toHaveTextContent(
+      simpleBlog.title && simpleBlog.author && `blog has ${simpleBlog.likes} likes`
+    )
+  })
+  
+  test('calls event handler when pressing like twice', () => {
+    const { getByText: component } = render(
+      <SimpleBlog blog={simpleBlog} onClick={mockHandler}/>
+    )
+    
+    const likeButton = component('like')
+    fireEvent.click(likeButton)
+    fireEvent.click(likeButton)
+    expect(mockHandler.mock.calls.length).toBe(2)
+  })
   
   // component.debug()
   // const div = component.container.querySelector('div')
   // console.log(prettyDOM(div))
-  
-  expect(component.container).toHaveTextContent(
-    simpleBlog.title && simpleBlog.author && `blog has ${simpleBlog.likes} likes`
-  )
   
 })
