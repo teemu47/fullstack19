@@ -40,7 +40,7 @@ const Blog = ({ blog, addLike, deleteBlog, user }) => {
   }
 
   return (
-    <div style={blogStyle}>
+    <div style={blogStyle} className={'blog'}>
       <div onClick={toggleFullInfo} style={pointerStyle}>
         {blog.title} {blog.author}
       </div>

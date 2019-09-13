@@ -9,6 +9,7 @@ const blogs = [
     author: 'Test Man',
     url: 'www.testurl.com',
     likes: 10,
+    id: 1,
     user: mockUser
   },
   {
@@ -16,6 +17,7 @@ const blogs = [
     author: 'Teemu Ijäs',
     url: 'www.testurl.com',
     likes: 12,
+    id: 2,
     user: mockUser
   }
 ]
@@ -24,4 +26,8 @@ const getAll = () => {
   return Promise.resolve(blogs)
 }
 
-export default { getAll }
+const setToken = () => {
+  // nothing needs to be done here when testing
+}
+
+export default { getAll, setToken }
