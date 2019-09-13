@@ -10,13 +10,21 @@ import { useField } from './hooks'
 const App = () => {
   const [user, setUser] = useState(null)
   const [blogs, setBlogs] = useState([])
+  const [notification, setNotification] = useState(null)
+  
   const username = useField('text')
   const password = useField('password')
-  const [notification, setNotification] = useState(null)
   const title = useField('text')
   const author = useField('text')
   const url = useField('text')
+  
   const blogFormRef = React.createRef()
+  
+  const resetEvent = {
+    target: {
+      value: ''
+    }
+  }
   
   useEffect(() => {
     async function logIn() {
@@ -41,8 +49,8 @@ const App = () => {
       blogService.setToken(user.token)
       setBlogs(await blogService.getAll())
       setUser(user)
-      username.reset()
-      password.reset()
+      username.onChange(resetEvent)
+      password.onChange(resetEvent)
     } catch (e) {
       showNotification('error: wrong username or password')
       console.error(e)
@@ -63,9 +71,9 @@ const App = () => {
       const savedBlog = await blogService.createBlog(newBlog)
       setBlogs(blogs.concat(savedBlog))
       showNotification(`a new blog ${savedBlog.title} by ${savedBlog.author}`)
-      title.reset()
-      author.reset()
-      url.reset()
+      title.onChange(resetEvent)
+      author.onChange(resetEvent)
+      url.onChange(resetEvent)
     } catch (e) {
       showNotification('error: couldn\'t create a new blog')
       console.error(e)
