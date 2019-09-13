@@ -7,19 +7,15 @@ import Notification from './components/Notification'
 import Togglable from './components/Togglable'
 import { useField } from './hooks'
 
-
 const App = () => {
   const [user, setUser] = useState(null)
   const [blogs, setBlogs] = useState([])
-  
   const username = useField('text')
   const password = useField('password')
-  
   const [notification, setNotification] = useState(null)
-  const [title, setTitle] = useState('')
-  const [author, setAuthor] = useState('')
-  const [url, setUrl] = useState('')
-  
+  const title = useField('text')
+  const author = useField('text')
+  const url = useField('text')
   const blogFormRef = React.createRef()
   
   useEffect(() => {
@@ -36,7 +32,6 @@ const App = () => {
     }
     logIn()
   }, [])
-  
   
   const handleLogin = async (event) => {
     event.preventDefault()
@@ -64,13 +59,13 @@ const App = () => {
     event.preventDefault()
     blogFormRef.current.toggleVisibility()
     try {
-      const newBlog = { title, author, url }
+      const newBlog = { title: title.value, author: author.value, url: url.value }
       const savedBlog = await blogService.createBlog(newBlog)
       setBlogs(blogs.concat(savedBlog))
       showNotification(`a new blog ${savedBlog.title} by ${savedBlog.author}`)
-      setTitle('')
-      setAuthor('')
-      setUrl('')
+      title.reset()
+      author.reset()
+      url.reset()
     } catch (e) {
       showNotification('error: couldn\'t create a new blog')
       console.error(e)
@@ -101,12 +96,7 @@ const App = () => {
   
   const blogForm = () => (
     <Togglable buttonLabel={'new blog'} ref={blogFormRef}>
-      <BlogForm title={title} author={author} url={url}
-                handleSubmit={createBlog}
-                handleAuthorChange={({ target }) => setAuthor(target.value)}
-                handleTitleChange={({ target }) => setTitle(target.value)}
-                handleUrlChange={({ target }) => setUrl(target.value)}
-      />
+      <BlogForm title={title} author={author} url={url} handleSubmit={createBlog} />
     </Togglable>
   )
   
