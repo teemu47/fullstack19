@@ -2,12 +2,23 @@ import React from 'react';
 
 const App = (props) => {
   const anecdotes = props.store.getState()
+  const anecdoteStore = props.store
 
   const vote = (id) => {
-    props.store.dispatch({
+    anecdoteStore.dispatch({
       type: 'VOTE',
       data: {id}
     })
+  }
+  
+  const create = (event) => {
+    event.preventDefault()
+    const content = event.target.anecdote.value
+    anecdoteStore.dispatch({
+      type: 'CREATE',
+      data: {content}
+    })
+    event.target.anecdote.value = ''
   }
 
   return (
@@ -25,9 +36,9 @@ const App = (props) => {
         </div>
       )}
       <h2>create new</h2>
-      <form>
-        <div><input /></div>
-        <button>create</button>
+      <form onSubmit={create}>
+        <div><input name={'anecdote'} /></div>
+        <button type={'submit'}>create</button>
       </form>
     </div>
   )
