@@ -25,7 +25,7 @@ const reducer = (state = initialState, action) => {
     case 'VOTE':
       const newState = [...state]
       newState.find(n => n.id === action.data.id).votes += 1
-      return newState
+      return newState.sort((a,b) => b.votes - a.votes)
     case 'CREATE':
       const content = action.data.content
       const anecdote = {
