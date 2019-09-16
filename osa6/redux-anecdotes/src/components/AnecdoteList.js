@@ -1,6 +1,6 @@
 import React from 'react'
 import { voteAnecdote } from '../reducers/anecdoteReducer'
-import { notificationChange } from '../reducers/notificationReducer'
+import { notificationChange, notificationReset } from '../reducers/notificationReducer'
 
 const AnecdoteList = ({ store }) => {
   const anecdotes = store.getState().anecdotes
@@ -13,7 +13,7 @@ const AnecdoteList = ({ store }) => {
     store.dispatch(notificationChange(message))
   
     setTimeout(() => {
-      store.dispatch(notificationChange(''))
+      store.dispatch(notificationReset())
     }, 5000)
   }
   
