@@ -8,6 +8,11 @@ const Notification = ({ store }) => {
     padding: 10,
     borderWidth: 1
   }
+  
+  if (!notification) {
+    style.display = 'none'
+  }
+  
   return (
     <div style={style}>
       {notification}
