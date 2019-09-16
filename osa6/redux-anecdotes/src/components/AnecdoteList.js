@@ -1,9 +1,11 @@
 import React from 'react'
 import { voteAnecdote } from '../reducers/anecdoteReducer'
 import { notificationChange, notificationReset } from '../reducers/notificationReducer'
+import Filter from './Filter'
 
 const AnecdoteList = ({ store }) => {
-  const anecdotes = store.getState().anecdotes
+  const { anecdotes, filter } = store.getState()
+  const anecdotesToShow = anecdotes.filter(a => a.content.toLowerCase().includes(filter.toLowerCase()))
   
   const vote = (id) => {
     store.dispatch(voteAnecdote(id))
@@ -19,7 +21,8 @@ const AnecdoteList = ({ store }) => {
   
   return (
     <div>
-      {anecdotes.map(anecdote =>
+      <Filter store={store} />
+      {anecdotesToShow.map(anecdote =>
         <div key={anecdote.id}>
           <div>
             {anecdote.content}
