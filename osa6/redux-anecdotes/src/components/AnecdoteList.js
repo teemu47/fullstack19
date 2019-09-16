@@ -5,15 +5,10 @@ import { connect } from 'react-redux'
 import Filter from './Filter'
 
 const AnecdoteList = (props) => {
-  const { anecdotes, filter } = props
-  const anecdotesToShow = anecdotes.filter(a => a.content.toLowerCase().includes(filter.toLowerCase()))
   const vote = (id) => {
     props.voteAnecdote(id)
-    const votedAnecdote = anecdotes.find(a => a.id === id)
-    
-    const message = `you voted '${votedAnecdote.content}'`
-    props.notificationChange(message)
-  
+    const votedAnecdote = props.anecdotes.find(a => a.id === id)
+    props.notificationChange(`you voted '${votedAnecdote.content}'`)
     setTimeout(() => {
       props.notificationReset()
     }, 5000)
@@ -22,7 +17,7 @@ const AnecdoteList = (props) => {
   return (
     <div>
       <Filter />
-      {anecdotesToShow.map(anecdote =>
+      {props.anecdotesToShow.map(anecdote =>
         <div key={anecdote.id}>
           <div>
             {anecdote.content}
@@ -43,10 +38,15 @@ const mapDispatchToProps = {
   notificationChange
 }
 
+const anecdotesToShow = ({ anecdotes, filter }) => {
+  return anecdotes.filter(a => a.content.toLowerCase().includes(filter.toLowerCase()))
+}
+
 const mapStateToProps = state => {
   return {
     anecdotes: state.anecdotes,
-    filter: state.filter
+    filter: state.filter,
+    anecdotesToShow: anecdotesToShow(state)
   }
 }
 
