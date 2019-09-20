@@ -1,5 +1,3 @@
-const getId = () => (100000 * Math.random()).toFixed(0)
-
 const anecdoteReducer = (state = [], action) => {
   switch (action.type) {
     case 'VOTE':
@@ -7,12 +5,7 @@ const anecdoteReducer = (state = [], action) => {
       newState.find(n => n.id === action.data.id).votes += 1
       return newState.sort((a,b) => b.votes - a.votes)
     case 'ANECDOTE_CREATE':
-      const content = action.data.content
-      const anecdote = {
-        content,
-        id: getId(),
-        votes: 0
-      }
+      const anecdote = action.data
       return [...state, anecdote]
     case 'ANECDOTES_INIT':
       const initAnecdotes = action.data
@@ -31,10 +24,10 @@ export const voteAnecdote = (id) => {
   }
 }
 
-export const createAnecdote = (content) => {
+export const createAnecdote = (data) => {
   return {
     type: 'ANECDOTE_CREATE',
-    data: {content}
+    data,
   }
 }
 
