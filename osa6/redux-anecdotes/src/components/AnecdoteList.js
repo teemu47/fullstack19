@@ -1,6 +1,6 @@
 import React from 'react'
 import { voteAnecdote } from '../reducers/anecdoteReducer'
-import { notificationChange, notificationReset } from '../reducers/notificationReducer'
+import { setNotification, notificationReset } from '../reducers/notificationReducer'
 import { connect } from 'react-redux'
 import Filter from './Filter'
 
@@ -8,11 +8,7 @@ const AnecdoteList = (props) => {
   const vote = async (id) => {
     const anecdoteToVote = props.anecdotes.find(a => a.id === id)
     props.voteAnecdote(anecdoteToVote)
-    
-    props.notificationChange(`you voted '${anecdoteToVote.content}'`)
-    setTimeout(() => {
-      props.notificationReset()
-    }, 5000)
+    props.setNotification(`you voted '${anecdoteToVote.content}'`, 2)
   }
   
   return (
@@ -38,7 +34,7 @@ const AnecdoteList = (props) => {
 const mapDispatchToProps = {
   voteAnecdote,
   notificationReset,
-  notificationChange
+  setNotification
 }
 
 const anecdotesToShow = ({ anecdotes, filter }) => {
