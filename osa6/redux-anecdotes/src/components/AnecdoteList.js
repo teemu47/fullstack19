@@ -5,10 +5,11 @@ import { connect } from 'react-redux'
 import Filter from './Filter'
 
 const AnecdoteList = (props) => {
-  const vote = (id) => {
-    props.voteAnecdote(id)
-    const votedAnecdote = props.anecdotes.find(a => a.id === id)
-    props.notificationChange(`you voted '${votedAnecdote.content}'`)
+  const vote = async (id) => {
+    const anecdoteToVote = props.anecdotes.find(a => a.id === id)
+    props.voteAnecdote(anecdoteToVote)
+    
+    props.notificationChange(`you voted '${anecdoteToVote.content}'`)
     setTimeout(() => {
       props.notificationReset()
     }, 5000)
@@ -23,7 +24,9 @@ const AnecdoteList = (props) => {
             {anecdote.content}
           </div>
           <div>
-            has {anecdote.votes}
+            <div>
+              has {anecdote.votes} votes
+            </div>
             <button onClick={() => vote(anecdote.id)}>vote</button>
           </div>
         </div>
