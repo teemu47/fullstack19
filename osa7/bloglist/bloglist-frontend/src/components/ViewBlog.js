@@ -8,6 +8,7 @@ const ViewBlogNoHistory = props => {
   if (!props.blog) {
     return null
   }
+  console.log('props.blog', props.blog)
   
   const addLike = () => {
     props.blog.likes++
@@ -46,6 +47,12 @@ const ViewBlogNoHistory = props => {
       </div>
       <div>
         <button style={deleteButton} onClick={() => deleteBlog(props.blog.id)}>DELETE</button>
+      </div>
+      <div>
+        <h3>comments</h3>
+        <ul>
+          {props.blog.comments.map((comment, index) => <li key={index}>{comment}</li>)}
+        </ul>
       </div>
     </div>
   )
