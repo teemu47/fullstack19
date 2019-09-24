@@ -12,6 +12,7 @@ import { BrowserRouter as Router, Route, Link, Redirect, withRouter } from 'reac
 import Users from './components/Users'
 import { initializeUsers } from './reducers/usersReducer'
 import User from './components/User'
+import ViewBlog from './components/ViewBlog'
 
 const App = (props) => {
   const [username, usernameReset] = useField('text')
@@ -91,7 +92,7 @@ const App = (props) => {
         {blogForm()}
         <div>
           {props.blogs.map(blog =>
-            <Blog key={blog.id} blog={blog} />
+            <Blog key={blog.id} id={blog.id} />
           )}
         </div>
       </div>
@@ -113,6 +114,7 @@ const App = (props) => {
         <Route exact path={'/'} render={() => bloglist()} />
         <Route exact path={'/users'} render={() => <Users />} />
         <Route exact path={'/users/:id'} render={({ match }) => <User id={match.params.id}/>} />
+        <Route exact path={'/blogs/:id'} render={({ match }) => <ViewBlog id={match.params.id} />} />
       </Router>
     </div>
   )
