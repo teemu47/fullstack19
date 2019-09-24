@@ -8,11 +8,14 @@ import { setNotification } from './reducers/notificationReducer'
 import { connect } from 'react-redux'
 import { createBlog, initializeBlogs } from './reducers/blogReducer'
 import { login, logout, setUser } from './reducers/userReducer'
+import { BrowserRouter as Router, Route, Link, Redirect, withRouter } from 'react-router-dom'
+import Users from './components/Users'
+import { initializeUsers } from './reducers/usersReducer'
 
 const App = (props) => {
   const [username, usernameReset] = useField('text')
   const [password, passwordReset] = useField('password')
-  const { initializeBlogs, setUser } = props
+  const { initializeBlogs, setUser, initializeUsers } = props
   
   const blogFormRef = React.createRef()
   
@@ -20,16 +23,18 @@ const App = (props) => {
     const loggedInUserJSON = window.localStorage.getItem('loggedInUser')
     if (loggedInUserJSON) {
       initializeBlogs()
+      initializeUsers()
       const user = JSON.parse(loggedInUserJSON)
       setUser(user)
     }
-  }, [initializeBlogs, setUser])
+  }, [initializeBlogs, setUser, initializeUsers])
   
   const handleLogin = async (event) => {
     event.preventDefault()
     try {
       await props.login({ username: username.value, password: password.value })
       props.initializeBlogs()
+      props.initializeUsers()
       usernameReset()
       passwordReset()
     } catch (e) {
@@ -82,14 +87,7 @@ const App = (props) => {
   const bloglist = () => {
     return (
       <div>
-        <h2>blogs</h2>
-        <Notification />
-        <div>
-          {props.user.name} logged in <button onClick={handleLogout}>logout</button>
-        </div>
-        
         {blogForm()}
-        
         <div>
           {props.blogs.map(blog =>
             <Blog key={blog.id} blog={blog} />
@@ -99,10 +97,21 @@ const App = (props) => {
     )
   }
   
+  if (!props.user) {
+    return loginForm()
+  }
+  
   return (
     <div>
-      {props.user === null && loginForm()}
-      {props.user !== null && bloglist()}
+      <Router>
+        <h2>blogs</h2>
+        <Notification />
+        <div>
+          {props.user.name} logged in <button onClick={handleLogout}>logout</button>
+        </div>
+        <Route exact path={'/'} render={() => bloglist()} />
+        <Route exact path={'/users'} render={() => <Users />} />
+      </Router>
     </div>
   )
 }
@@ -110,7 +119,8 @@ const App = (props) => {
 const mapStateToProps = state => {
   return {
     blogs: state.blogs,
-    user: state.user
+    user: state.user,
+    users: state.users
   }
 }
 
@@ -120,7 +130,8 @@ const mapDispatchToProps = {
   createBlog,
   login,
   setUser,
-  logout
+  logout,
+  initializeUsers
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(App)

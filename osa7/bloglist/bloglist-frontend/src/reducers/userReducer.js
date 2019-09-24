@@ -1,4 +1,5 @@
 import loginService from '../services/login'
+import userService from '../services/users'
 
 const userReducer = (state = null, action) => {
   switch (action.type) {
@@ -39,5 +40,6 @@ export const logout = () => {
     })
   }
 }
+
 
 export default userReducer
