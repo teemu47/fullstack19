@@ -1,8 +1,14 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
+import { initializeUsers } from '../reducers/usersReducer'
 
 const Users = props => {
+  const { initializeUsers } = props
+  
+  useEffect(() => {
+    initializeUsers()
+  }, [initializeUsers])
   
   return (
     <div>
@@ -35,4 +41,8 @@ const mapStateToProps = state => {
   }
 }
 
-export default connect(mapStateToProps, null)(Users)
+const mapDispatchToProps = {
+  initializeUsers
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Users)

@@ -4,8 +4,6 @@ const usersReducer = (state = [], action) => {
   switch (action.type) {
     case 'INIT_USERS':
       return action.data.users
-    case 'RESET_USERS':
-      return []
     default:
       return state
   }
@@ -19,14 +17,6 @@ export const initializeUsers = () => {
     dispatch({
       type: 'INIT_USERS',
       data: { users }
-    })
-  }
-}
-
-export const resetUsers = () => {
-  return dispatch => {
-    dispatch({
-      type: 'RESET_USERS'
     })
   }
 }

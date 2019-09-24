@@ -14,12 +14,11 @@ const BlogForm = ({ createBlog }) => {
       author: author.value,
       url: url.value
     })
-    
     titleReset()
     authorReset()
     urlReset()
   }
-
+  
   return (
     <div>
       <h2>Create a new blog</h2>
