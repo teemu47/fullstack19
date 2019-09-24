@@ -3,11 +3,10 @@ import Notification from './components/Notification'
 import { useField } from './hooks'
 import { setNotification } from './reducers/notificationReducer'
 import { connect } from 'react-redux'
-import { createBlog, initializeBlogs } from './reducers/blogReducer'
+import { initializeBlogs } from './reducers/blogReducer'
 import { login, setUser } from './reducers/userReducer'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import Users from './components/Users'
-import { initializeUsers } from './reducers/usersReducer'
 import User from './components/User'
 import ViewBlog from './components/ViewBlog'
 import NavigationMenu from './components/NavigationMenu'
@@ -16,7 +15,7 @@ import Blogs from './components/Blogs'
 const App = (props) => {
   const [username, usernameReset] = useField('text')
   const [password, passwordReset] = useField('password')
-  const { initializeBlogs, setUser, initializeUsers } = props
+  const { initializeBlogs, setUser } = props
   
   useEffect(() => {
     const loggedInUserJSON = window.localStorage.getItem('loggedInUser')
@@ -24,16 +23,14 @@ const App = (props) => {
       const user = JSON.parse(loggedInUserJSON)
       setUser(user)
       initializeBlogs()
-      initializeUsers()
     }
-  }, [initializeBlogs, setUser, initializeUsers])
+  }, [initializeBlogs, setUser])
   
   const handleLogin = async (event) => {
     event.preventDefault()
     try {
       await props.login({ username: username.value, password: password.value })
       props.initializeBlogs()
-      props.initializeUsers()
       usernameReset()
       passwordReset()
     } catch (e) {
@@ -84,18 +81,15 @@ const App = (props) => {
 const mapStateToProps = state => {
   return {
     blogs: state.blogs,
-    user: state.user,
-    users: state.users
+    user: state.user
   }
 }
 
 const mapDispatchToProps = {
   setNotification,
   initializeBlogs,
-  createBlog,
   login,
-  setUser,
-  initializeUsers
+  setUser
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(App)
