@@ -58,7 +58,7 @@ blogRouter.delete('/:id', async (request, response, next) => {
     const user = await User.findById(decodedToken.id)
     
     if (blog.user.toString() === user._id.toString()) {
-      await Blog.findByIdAndRemove(blogId)
+      await Blog.deleteOne({id: blogId})
     } else {
       return response.status(401).json({error: 'unauthorized user'})
     }

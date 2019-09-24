@@ -3,12 +3,12 @@ import { connect } from 'react-redux'
 import { deleteBlog, updateBlog } from '../reducers/blogReducer'
 import { withRouter } from 'react-router-dom'
 import { setNotification } from '../reducers/notificationReducer'
+import CommentForm from './CommentForm'
 
 const ViewBlogNoHistory = props => {
   if (!props.blog) {
     return null
   }
-  console.log('props.blog', props.blog)
   
   const addLike = () => {
     props.blog.likes++
@@ -50,6 +50,7 @@ const ViewBlogNoHistory = props => {
       </div>
       <div>
         <h3>comments</h3>
+        <CommentForm id={props.blog.id} />
         <ul>
           {props.blog.comments.map((comment, index) => <li key={index}>{comment}</li>)}
         </ul>
