@@ -1,8 +1,5 @@
 import React, { useEffect } from 'react'
-import Blog from './components/Blog'
-import BlogForm from './components/BlogForm'
 import Notification from './components/Notification'
-import Togglable from './components/Togglable'
 import { useField } from './hooks'
 import { setNotification } from './reducers/notificationReducer'
 import { connect } from 'react-redux'
@@ -14,21 +11,20 @@ import { initializeUsers } from './reducers/usersReducer'
 import User from './components/User'
 import ViewBlog from './components/ViewBlog'
 import NavigationMenu from './components/NavigationMenu'
+import Blogs from './components/Blogs'
 
 const App = (props) => {
   const [username, usernameReset] = useField('text')
   const [password, passwordReset] = useField('password')
   const { initializeBlogs, setUser, initializeUsers } = props
   
-  const blogFormRef = React.createRef()
-  
   useEffect(() => {
     const loggedInUserJSON = window.localStorage.getItem('loggedInUser')
     if (loggedInUserJSON) {
-      initializeBlogs()
-      initializeUsers()
       const user = JSON.parse(loggedInUserJSON)
       setUser(user)
+      initializeBlogs()
+      initializeUsers()
     }
   }, [initializeBlogs, setUser, initializeUsers])
   
@@ -45,23 +41,6 @@ const App = (props) => {
       console.error(e)
     }
   }
-  
-  const createBlog = async (newBlog) => {
-    blogFormRef.current.toggleVisibility()
-    try {
-      await props.createBlog(newBlog)
-      props.setNotification(`a new blog ${newBlog.title} by ${newBlog.author}`)
-    } catch (e) {
-      props.setNotification('error: couldn\'t create a new blog')
-      console.error(e)
-    }
-  }
-  
-  const blogForm = () => (
-    <Togglable buttonLabel={'new blog'} ref={blogFormRef}>
-      <BlogForm createBlog={createBlog} />
-    </Togglable>
-  )
   
   const loginForm = () => {
     return (
@@ -83,18 +62,6 @@ const App = (props) => {
     )
   }
   
-  const bloglist = () => {
-    return (
-      <div>
-        {blogForm()}
-        <div>
-          {props.blogs.map(blog =>
-            <Blog key={blog.id} id={blog.id} />
-          )}
-        </div>
-      </div>
-    )
-  }
   
   if (!props.user) {
     return loginForm()
@@ -106,7 +73,7 @@ const App = (props) => {
         <NavigationMenu />
         <h2>blogger boys</h2>
         <Notification />
-        <Route exact path={'/'} render={() => bloglist()} />
+        <Route exact path={'/'} render={() => <Blogs />} />
         <Route exact path={'/users'} render={() => <Users />} />
         <Route exact path={'/users/:id'} render={({ match }) => <User id={match.params.id}/>} />
         <Route exact path={'/blogs/:id'} render={({ match }) => <ViewBlog id={match.params.id} />} />
