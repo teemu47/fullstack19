@@ -1,7 +1,24 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { useField } from '../hooks'
 
-const BlogForm = ({ handleSubmit, title, author, url }) => {
+const BlogForm = ({ createBlog }) => {
+  const [title, titleReset] = useField('text')
+  const [author, authorReset] = useField('text')
+  const [url, urlReset] = useField('text')
+  
+  const handleSubmit = event => {
+    event.preventDefault()
+    createBlog({
+      title: title.value,
+      author: author.value,
+      url: url.value
+    })
+    
+    titleReset()
+    authorReset()
+    urlReset()
+  }
 
   return (
     <div>
@@ -26,10 +43,7 @@ const BlogForm = ({ handleSubmit, title, author, url }) => {
 }
 
 BlogForm.propTypes = {
-  handleSubmit: PropTypes.func.isRequired,
-  title: PropTypes.object.isRequired,
-  author: PropTypes.object.isRequired,
-  url: PropTypes.object.isRequired
+  createBlog: PropTypes.func.isRequired,
 }
 
 export default BlogForm

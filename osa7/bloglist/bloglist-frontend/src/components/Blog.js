@@ -1,29 +1,39 @@
 import React, { useState } from 'react'
+import { connect } from 'react-redux'
+import { deleteBlog, updateBlog } from '../reducers/blogReducer'
 
-const Blog = ({ blog, addLike, deleteBlog, user }) => {
+const Blog = props => {
+  const { user, blog } = props
   const [fullInfo, setFullInfo] = useState(false)
 
   const toggleFullInfo = () => {
     setFullInfo(!fullInfo)
   }
-
-  const updateLikes = () => {
-    addLike(blog.id)
-  }
   
-  const handleDelete = () => {
+  const deleteBlog = blogId => {
     if (window.confirm(`remove blog ${blog.title} by ${blog.author}`)) {
-      deleteBlog(blog.id)
+      try {
+        props.deleteBlog(blogId)
+      } catch (e) {
+        console.error(e)
+      }
     }
   }
+  
+  const addLikeToBlog = async blogId => {
+    const blogToUpdate = { ...props.blogs.find(b => b.id === blogId) }
+    blogToUpdate.likes++
+    props.updateBlog(blogToUpdate)
+  }
+  
   
   const deleteButton = {
     display: user.username === blog.user.username ? '' : 'none',
     color: 'red'
   }
-
+  
   const showFullInfo = { display: fullInfo ? '': 'none' }
-
+  
   const blogStyle = {
     border: 'solid',
     borderWidth: 2,
@@ -33,11 +43,11 @@ const Blog = ({ blog, addLike, deleteBlog, user }) => {
     marginBottom: 10,
     marginTop: 10
   }
-
+  
   const pointerStyle = {
     cursor: 'pointer'
   }
-
+  
   return (
     <div style={blogStyle} className={'blog'}>
       <div onClick={toggleFullInfo} style={pointerStyle}>
@@ -45,12 +55,24 @@ const Blog = ({ blog, addLike, deleteBlog, user }) => {
       </div>
       <div style={showFullInfo} className={'blogFullInfo'}>
         <div><a href={blog.url} target={'_blank'}>{blog.url}</a></div>
-        <div>{blog.likes} likes <button style={pointerStyle} onClick={updateLikes}>like</button></div>
+        <div>{blog.likes} likes <button style={pointerStyle} onClick={() => addLikeToBlog(blog.id)}>like</button></div>
         <div>added by {blog.user.name}</div>
-        <div><button style={deleteButton} onClick={handleDelete}>DELETE</button></div>
+        <div><button style={deleteButton} onClick={() => deleteBlog(blog.id)}>DELETE</button></div>
       </div>
     </div>
   )
 }
 
-export default Blog
+const mapStateToProps = state => {
+  return {
+    user: state.user,
+    blogs: state.blogs
+  }
+}
+
+const mapDispatchToProps = {
+  deleteBlog,
+  updateBlog
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Blog)
