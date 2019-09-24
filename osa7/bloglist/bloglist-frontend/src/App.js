@@ -7,12 +7,13 @@ import { useField } from './hooks'
 import { setNotification } from './reducers/notificationReducer'
 import { connect } from 'react-redux'
 import { createBlog, initializeBlogs } from './reducers/blogReducer'
-import { login, logout, setUser } from './reducers/userReducer'
-import { BrowserRouter as Router, Route, Link, Redirect, withRouter } from 'react-router-dom'
+import { login, setUser } from './reducers/userReducer'
+import { BrowserRouter as Router, Route } from 'react-router-dom'
 import Users from './components/Users'
 import { initializeUsers } from './reducers/usersReducer'
 import User from './components/User'
 import ViewBlog from './components/ViewBlog'
+import NavigationMenu from './components/NavigationMenu'
 
 const App = (props) => {
   const [username, usernameReset] = useField('text')
@@ -43,10 +44,6 @@ const App = (props) => {
       props.setNotification('error: wrong username or password')
       console.error(e)
     }
-  }
-  
-  const handleLogout = () => {
-    props.logout()
   }
   
   const createBlog = async (newBlog) => {
@@ -106,11 +103,9 @@ const App = (props) => {
   return (
     <div>
       <Router>
-        <h2>blogs</h2>
+        <NavigationMenu />
+        <h2>blogger boys</h2>
         <Notification />
-        <div>
-          {props.user.name} logged in <button onClick={handleLogout}>logout</button>
-        </div>
         <Route exact path={'/'} render={() => bloglist()} />
         <Route exact path={'/users'} render={() => <Users />} />
         <Route exact path={'/users/:id'} render={({ match }) => <User id={match.params.id}/>} />
@@ -134,7 +129,6 @@ const mapDispatchToProps = {
   createBlog,
   login,
   setUser,
-  logout,
   initializeUsers
 }
 
