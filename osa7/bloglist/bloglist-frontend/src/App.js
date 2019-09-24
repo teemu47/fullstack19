@@ -11,6 +11,7 @@ import { login, logout, setUser } from './reducers/userReducer'
 import { BrowserRouter as Router, Route, Link, Redirect, withRouter } from 'react-router-dom'
 import Users from './components/Users'
 import { initializeUsers } from './reducers/usersReducer'
+import User from './components/User'
 
 const App = (props) => {
   const [username, usernameReset] = useField('text')
@@ -111,6 +112,7 @@ const App = (props) => {
         </div>
         <Route exact path={'/'} render={() => bloglist()} />
         <Route exact path={'/users'} render={() => <Users />} />
+        <Route exact path={'/users/:id'} render={({ match }) => <User id={match.params.id}/>} />
       </Router>
     </div>
   )
