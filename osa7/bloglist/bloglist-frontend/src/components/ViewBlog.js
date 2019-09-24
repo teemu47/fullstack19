@@ -1,8 +1,10 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { deleteBlog, updateBlog } from '../reducers/blogReducer'
+import { withRouter } from 'react-router-dom'
+import { setNotification } from '../reducers/notificationReducer'
 
-const ViewBlog = props => {
+const ViewBlogNoHistory = props => {
   if (!props.blog) {
     return null
   }
@@ -10,11 +12,18 @@ const ViewBlog = props => {
   const addLike = () => {
     props.blog.likes++
     props.updateBlog(props.blog)
+    props.setNotification(`you liked ${props.blog.title} by ${props.blog.author}`)
   }
   
   const deleteBlog = async (id) => {
     if (window.confirm(`remove blog ${props.blog.title} by ${props.blog.author}`)) {
-      props.deleteBlog(id)
+      try {
+        await props.deleteBlog(id)
+        props.setNotification(`succesfully removed ${props.blog.title} by ${props.blog.author}`)
+        props.history.push('/')
+      } catch (e) {
+        props.setNotification('error: couldn\'t remove blog')
+      }
     }
   }
   
@@ -51,7 +60,10 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = {
   deleteBlog,
-  updateBlog
+  updateBlog,
+  setNotification
 }
+
+const ViewBlog = withRouter(ViewBlogNoHistory)
 
 export default connect(mapStateToProps, mapDispatchToProps)(ViewBlog)
