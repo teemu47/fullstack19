@@ -5,19 +5,21 @@ import Blog from './Blog'
 import { createBlog } from '../reducers/blogReducer'
 import { setNotification } from '../reducers/notificationReducer'
 import { connect } from 'react-redux'
+import { initializeUsers } from '../reducers/usersReducer'
 
 const Blogs = props => {
   const blogFormRef = React.createRef()
   
   const createBlog = async (newBlog) => {
+    blogFormRef.current.toggleVisibility()
     try {
       await props.createBlog(newBlog)
       props.setNotification(`a new blog ${newBlog.title} by ${newBlog.author}`)
+      await props.initializeUsers()
     } catch (e) {
       props.setNotification('error: couldn\'t create a new blog')
       console.error(e)
     }
-    blogFormRef.current.toggleVisibility()
   }
   
   return (
@@ -42,7 +44,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = {
   createBlog,
-  setNotification
+  setNotification,
+  initializeUsers
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Blogs)

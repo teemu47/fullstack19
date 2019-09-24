@@ -62,7 +62,6 @@ const App = (props) => {
     )
   }
   
-  
   if (!props.user) {
     return loginForm()
   }

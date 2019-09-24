@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { deleteBlog, updateBlog } from '../reducers/blogReducer'
+import { initializeUsers } from '../reducers/usersReducer'
 
 const ViewBlog = props => {
   if (!props.blog) {
@@ -12,9 +13,10 @@ const ViewBlog = props => {
     props.updateBlog(props.blog)
   }
   
-  const deleteBlog = id => {
+  const deleteBlog = async (id) => {
     if (window.confirm(`remove blog ${props.blog.title} by ${props.blog.author}`)) {
-      props.deleteBlog(id)
+      await props.deleteBlog(id)
+      await props.initializeUsers()
     }
   }
   
@@ -51,7 +53,8 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = {
   deleteBlog,
-  updateBlog
+  updateBlog,
+  initializeUsers
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ViewBlog)
