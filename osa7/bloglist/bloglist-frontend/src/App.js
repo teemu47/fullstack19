@@ -49,13 +49,13 @@ const App = (props) => {
         <Form onSubmit={handleLogin}>
           <Form.Field>
             <label>username</label>
-            <input {...username} autoComplete={'username'}/>
+            <input data-test={'username'} {...username} autoComplete={'username'}/>
           </Form.Field>
           <Form.Field>
             <label>password</label>
-            <input {...password} autoComplete={'current-password'}/>
+            <input data-test={'password'} {...password} autoComplete={'current-password'}/>
             </Form.Field>
-            <Button type={'submit'}>login</Button>
+            <Button data-test={'login'} type={'submit'}>login</Button>
         </Form>
       </Container>
     )
