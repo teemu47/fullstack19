@@ -12,6 +12,7 @@ import ViewBlog from './components/ViewBlog'
 import NavigationMenu from './components/NavigationMenu'
 import Blogs from './components/Blogs'
 import { Button, Container, Form } from 'semantic-ui-react'
+import styled from 'styled-components'
 
 const App = (props) => {
   const [username, usernameReset] = useField('text')
@@ -48,11 +49,11 @@ const App = (props) => {
         <Form onSubmit={handleLogin}>
           <Form.Field>
             <label>username</label>
-            <input {...username}/>
+            <input {...username} autoComplete={'username'}/>
           </Form.Field>
           <Form.Field>
             <label>password</label>
-            <input {...password}/>
+            <input {...password} autoComplete={'current-password'}/>
             </Form.Field>
             <Button type={'submit'}>login</Button>
         </Form>
@@ -60,21 +61,33 @@ const App = (props) => {
     )
   }
   
+  const Footer = styled.div`
+    text-align: center;
+    position: absolute;
+    width: 100%
+    bottom: 20px;
+  `
+  
   if (!props.user) {
     return loginForm()
   }
   
   return (
-    <Container>
-      <Router>
-        <NavigationMenu />
-        <Notification />
-        <Route exact path={'/'} render={() => <Blogs />} />
-        <Route exact path={'/users'} render={() => <Users />} />
-        <Route exact path={'/users/:id'} render={({ match }) => <User id={match.params.id}/>} />
-        <Route exact path={'/blogs/:id'} render={({ match }) => <ViewBlog id={match.params.id} />} />
-      </Router>
-    </Container>
+    <div>
+      <Container>
+        <Router>
+          <NavigationMenu />
+          <Notification />
+          <Route exact path={'/'} render={() => <Blogs />} />
+          <Route exact path={'/users'} render={() => <Users />} />
+          <Route exact path={'/users/:id'} render={({ match }) => <User id={match.params.id}/>} />
+          <Route exact path={'/blogs/:id'} render={({ match }) => <ViewBlog id={match.params.id} />} />
+        </Router>
+      </Container>
+      <Footer>
+        <p>All rigths not reserved 2019</p>
+      </Footer>
+    </div>
   )
 }
 
