@@ -1,7 +1,6 @@
 import React from 'react'
 import Togglable from './Togglable'
 import BlogForm from './BlogForm'
-import Blog from './Blog'
 import { createBlog } from '../reducers/blogReducer'
 import { setNotification } from '../reducers/notificationReducer'
 import { connect } from 'react-redux'

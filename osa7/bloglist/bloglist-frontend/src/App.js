@@ -8,7 +8,7 @@ import { login, setUser } from './reducers/userReducer'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import Users from './components/Users'
 import User from './components/User'
-import ViewBlog from './components/ViewBlog'
+import Blog from './components/Blog'
 import NavigationMenu from './components/NavigationMenu'
 import Blogs from './components/Blogs'
 import { Button, Container, Form } from 'semantic-ui-react'
@@ -81,7 +81,7 @@ const App = (props) => {
           <Route exact path={'/'} render={() => <Blogs />} />
           <Route exact path={'/users'} render={() => <Users />} />
           <Route exact path={'/users/:id'} render={({ match }) => <User id={match.params.id}/>} />
-          <Route exact path={'/blogs/:id'} render={({ match }) => <ViewBlog id={match.params.id} />} />
+          <Route exact path={'/blogs/:id'} render={({ match }) => <Blog id={match.params.id} />} />
         </Router>
       </Container>
       <Footer>
