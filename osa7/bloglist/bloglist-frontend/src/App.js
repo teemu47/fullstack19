@@ -11,6 +11,7 @@ import User from './components/User'
 import ViewBlog from './components/ViewBlog'
 import NavigationMenu from './components/NavigationMenu'
 import Blogs from './components/Blogs'
+import { Button, Container, Form } from 'semantic-ui-react'
 
 const App = (props) => {
   const [username, usernameReset] = useField('text')
@@ -41,21 +42,21 @@ const App = (props) => {
   
   const loginForm = () => {
     return (
-      <div>
+      <Container>
         <h2>Log in to application</h2>
         <Notification />
-        <form onSubmit={handleLogin}>
-          <div>
-            username
-            <input {...username} autoComplete={'username'}/>
-          </div>
-          <div>
-            password
-            <input {...password} autoComplete={'current-password'} />
-          </div>
-          <button type={'submit'}>login</button>
-        </form>
-      </div>
+        <Form onSubmit={handleLogin}>
+          <Form.Field>
+            <label>username</label>
+            <input {...username}/>
+          </Form.Field>
+          <Form.Field>
+            <label>password</label>
+            <input {...password}/>
+            </Form.Field>
+            <Button type={'submit'}>login</Button>
+        </Form>
+      </Container>
     )
   }
   
@@ -64,17 +65,16 @@ const App = (props) => {
   }
   
   return (
-    <div className={'container'}>
+    <Container>
       <Router>
         <NavigationMenu />
-        <h1>blogger</h1>
         <Notification />
         <Route exact path={'/'} render={() => <Blogs />} />
         <Route exact path={'/users'} render={() => <Users />} />
         <Route exact path={'/users/:id'} render={({ match }) => <User id={match.params.id}/>} />
         <Route exact path={'/blogs/:id'} render={({ match }) => <ViewBlog id={match.params.id} />} />
       </Router>
-    </div>
+    </Container>
   )
 }
 

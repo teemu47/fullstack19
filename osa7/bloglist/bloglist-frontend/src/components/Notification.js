@@ -1,31 +1,23 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { Alert } from 'react-bootstrap'
 
 const Notification = (props) => {
   const notification = props.notification
-  
   if (notification === null) {
     return null
   }
   
-  let notificationStyle = {
-    fontSize: 20,
-    color: 'green',
-    background: 'lightgrey',
-    borderStyle: 'solid',
-    borderRadius: 5,
-    padding: 10,
-    marginBottom: 10
-  }
+  let variant = 'success'
   
   if (notification.includes('error')) {
-    notificationStyle.color = 'red'
+    variant = 'danger'
   }
   
   return (
-    <div style={notificationStyle}>
-      {notification}
-    </div>
+    <Alert variant={variant}>
+        {notification}
+    </Alert>
   )
 }
 

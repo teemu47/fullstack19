@@ -24,6 +24,7 @@ const Blogs = props => {
   
   return (
     <div>
+      <h2>Blogs</h2>
       <Togglable buttonLabel={'new blog'} ref={blogFormRef}>
         <BlogForm createBlog={createBlog} />
       </Togglable>

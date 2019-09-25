@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { useField } from '../hooks'
+import { Button, Form } from 'semantic-ui-react'
 
 const BlogForm = ({ createBlog }) => {
   const [title, titleReset] = useField('text')
@@ -21,22 +22,25 @@ const BlogForm = ({ createBlog }) => {
   
   return (
     <div>
-      <h2>Create a new blog</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          title
-          <input {...title} />
-        </div>
-        <div>
-          author
-          <input {...author} />
-        </div>
-        <div>
-          url
-          <input {...url} />
-        </div>
-        <button type={'submit'}>create</button>
-      </form>
+      <h3>Create a new blog</h3>
+      <Form onSubmit={handleSubmit}>
+        <Form.Field>
+          <label>title</label>
+          <input {...title}/>
+        </Form.Field>
+        
+        <Form.Field>
+          <label>author</label>
+          <input {...author}/>
+        </Form.Field>
+        
+        <Form.Field>
+          <label>url</label>
+          <input {...url}/>
+        </Form.Field>
+  
+        <Button color={'olive'} type={'submit'}>create</Button>
+      </Form>
     </div>
   )
 }

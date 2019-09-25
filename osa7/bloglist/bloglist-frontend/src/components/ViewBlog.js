@@ -4,6 +4,7 @@ import { deleteBlog, updateBlog } from '../reducers/blogReducer'
 import { withRouter } from 'react-router-dom'
 import { setNotification } from '../reducers/notificationReducer'
 import CommentForm from './CommentForm'
+import { Button, Card, Comment, Header } from 'semantic-ui-react'
 
 const ViewBlogNoHistory = props => {
   if (!props.blog) {
@@ -29,32 +30,36 @@ const ViewBlogNoHistory = props => {
   }
   
   const deleteButton = {
-    display: props.user.username === props.blog.user.username ? '' : 'none',
-    color: 'red'
+    display: props.user.username === props.blog.user.username ? '' : 'none'
   }
   
   return (
     <div>
-      <h2>{props.blog.title} {props.blog.author}</h2>
-      <div>
-        <a href={props.blog.url} target={'_blank'}>{props.blog.url}</a>
-      </div>
-      <div>
-        {props.blog.likes} likes <button onClick={addLike}>like</button>
-      </div>
-      <div>
-        added by {props.blog.user.name}
-      </div>
-      <div>
-        <button style={deleteButton} onClick={() => deleteBlog(props.blog.id)}>DELETE</button>
-      </div>
-      <div>
-        <h3>comments</h3>
-        <CommentForm id={props.blog.id} />
-        <ul>
-          {props.blog.comments.map((comment, index) => <li key={index}>{comment}</li>)}
-        </ul>
-      </div>
+      <Card>
+        <Card.Content>
+          <Card.Header>{props.blog.title}</Card.Header>
+          <Card.Meta>{props.blog.author}</Card.Meta>
+          <Card.Description><a href={props.blog.url}>{props.blog.url}</a></Card.Description>
+          <Card.Description>{props.blog.likes} likes</Card.Description>
+        </Card.Content>
+        <Card.Content extra>
+          <div className={'ui two buttons'}>
+            <Button color={'olive'} onClick={addLike}>like</Button>
+            <Button color={'orange'} style={deleteButton} onClick={() => deleteBlog(props.blog.id)}>delete</Button>
+          </div>
+        </Card.Content>
+      </Card>
+      <Comment.Group divided={'true'} relaxed={'true'} size={'large'}>
+        <Header as={'h3'} dividing>
+          comments
+        </Header>
+        {props.blog.comments.map((comment, index) =>
+          <Comment key={index}>
+            {comment}
+          </Comment>
+        )}
+      </Comment.Group>
+      <CommentForm id={props.blog.id} />
     </div>
   )
 }
