@@ -18,6 +18,7 @@ module.exports = {
   "plugins": [
     "react", "jest"
   ],
+  "parser": "babel-eslint",
   "rules": {
     "indent": [
       "off",
