@@ -1,9 +1,16 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import { List } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
+import { initializeUsers } from '../reducers/usersReducer'
 
 const User = props => {
+  const { initializeUsers } = props
+  
+  useEffect(() => {
+    initializeUsers()
+  }, [initializeUsers])
+  
   if (!props.user) {
     return null
   }
@@ -30,4 +37,4 @@ const mapStateToProps = (state, ownProps) => {
   }
 }
 
-export default connect(mapStateToProps, null)(User)
+export default connect(mapStateToProps, { initializeUsers })(User)
