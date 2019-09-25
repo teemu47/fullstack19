@@ -1,5 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { List } from 'semantic-ui-react'
+import { Link } from 'react-router-dom'
 
 const User = props => {
   if (!props.user) {
@@ -10,10 +12,13 @@ const User = props => {
     <div>
       <h2>{props.user.name}</h2>
       <h3>added blogs</h3>
-      <ul>
+      <List>
         {props.user.blogs.map(blog =>
-        <li key={blog.id}>{blog.title}</li>
+          <List.Item key={blog.id}>
+            <Link to={`/blogs/${blog.id}`}>{blog.title}</Link></List.Item>
         )}
+      </List>
+      <ul>
       </ul>
     </div>
   )
