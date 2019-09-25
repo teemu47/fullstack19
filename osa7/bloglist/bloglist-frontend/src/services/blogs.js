@@ -1,5 +1,6 @@
+/* global BACKEND_URL */
 import axios from 'axios'
-const baseUrl = '/api/blogs'
+const baseUrl = `${BACKEND_URL}/api/blogs`
 
 const getConfig = () => {
   return {
