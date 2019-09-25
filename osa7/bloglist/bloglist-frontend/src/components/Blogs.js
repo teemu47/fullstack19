@@ -5,6 +5,8 @@ import Blog from './Blog'
 import { createBlog } from '../reducers/blogReducer'
 import { setNotification } from '../reducers/notificationReducer'
 import { connect } from 'react-redux'
+import { Table } from 'react-bootstrap'
+import { Link } from 'react-router-dom'
 
 const Blogs = props => {
   const blogFormRef = React.createRef()
@@ -25,11 +27,20 @@ const Blogs = props => {
       <Togglable buttonLabel={'new blog'} ref={blogFormRef}>
         <BlogForm createBlog={createBlog} />
       </Togglable>
-      <div>
+      <Table striped>
+        <tbody>
         {props.blogs.map(blog =>
-          <Blog key={blog.id} id={blog.id} />
+        <tr key={blog.id}>
+          <td>
+            <Link to={`/blogs/${blog.id}`}>{blog.title}</Link>
+          </td>
+          <td>
+            {blog.author}
+          </td>
+        </tr>
         )}
-      </div>
+        </tbody>
+      </Table>
     </div>
   )
 }

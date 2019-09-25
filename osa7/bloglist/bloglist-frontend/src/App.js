@@ -64,10 +64,10 @@ const App = (props) => {
   }
   
   return (
-    <div>
+    <div className={'container'}>
       <Router>
         <NavigationMenu />
-        <h2>blogger boys</h2>
+        <h1>blogger</h1>
         <Notification />
         <Route exact path={'/'} render={() => <Blogs />} />
         <Route exact path={'/users'} render={() => <Users />} />
