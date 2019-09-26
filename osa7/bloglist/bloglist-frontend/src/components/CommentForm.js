@@ -16,9 +16,9 @@ const CommentForm = props => {
   return (
     <Form onSubmit={addComment}>
       <Form.Field>
-        <input {...comment}/>
+        <input data-test={'commentInput'} {...comment}/>
       </Form.Field>
-      <Button color={'blue'}>add comment</Button>
+      <Button data-test={'commentSubmit'} color={'blue'}>add comment</Button>
     </Form>
   )
 }

@@ -21,7 +21,7 @@ const ViewBlogNoHistory = props => {
     if (window.confirm(`remove blog ${props.blog.title} by ${props.blog.author}`)) {
       try {
         await props.deleteBlog(id)
-        props.setNotification(`succesfully removed ${props.blog.title} by ${props.blog.author}`)
+        props.setNotification(`successfully removed ${props.blog.title} by ${props.blog.author}`)
         props.history.push('/')
       } catch (e) {
         props.setNotification('error: couldn\'t remove blog')
@@ -40,16 +40,16 @@ const ViewBlogNoHistory = props => {
           <Card.Header>{props.blog.title}</Card.Header>
           <Card.Meta>{props.blog.author}</Card.Meta>
           <Card.Description><a href={props.blog.url}>{props.blog.url}</a></Card.Description>
-          <Card.Description>{props.blog.likes} likes</Card.Description>
+          <Card.Description data-test={'blogLikes'}>{props.blog.likes} likes</Card.Description>
         </Card.Content>
         <Card.Content extra>
           <div className={'ui two buttons'}>
-            <Button color={'olive'} onClick={addLike}>like</Button>
-            <Button color={'orange'} style={deleteButton} onClick={() => deleteBlog(props.blog.id)}>delete</Button>
+            <Button data-test={'likeButton'} color={'olive'} onClick={addLike}>like</Button>
+            <Button data-test={'deleteButton'} color={'orange'} style={deleteButton} onClick={() => deleteBlog(props.blog.id)}>delete</Button>
           </div>
         </Card.Content>
       </Card>
-      <Comment.Group divided={'true'} relaxed={'true'} size={'large'}>
+      <Comment.Group data-test={'commentList'} divided={'true'} relaxed={'true'} size={'large'}>
         <Header as={'h3'} dividing>
           comments
         </Header>

@@ -15,7 +15,7 @@ const Notification = (props) => {
   }
   
   return (
-    <Alert variant={variant}>
+    <Alert data-test={'notification'} variant={variant}>
         {notification}
     </Alert>
   )

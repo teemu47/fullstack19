@@ -26,20 +26,20 @@ const BlogForm = ({ createBlog }) => {
       <Form onSubmit={handleSubmit}>
         <Form.Field>
           <label>title</label>
-          <input {...title}/>
+          <input data-test={'title'} {...title}/>
         </Form.Field>
         
         <Form.Field>
           <label>author</label>
-          <input {...author}/>
+          <input data-test={'author'} {...author}/>
         </Form.Field>
         
         <Form.Field>
           <label>url</label>
-          <input {...url}/>
+          <input data-test={'url'} {...url}/>
         </Form.Field>
   
-        <Button color={'olive'} type={'submit'}>create</Button>
+        <Button data-test={'create'} color={'olive'} type={'submit'}>create</Button>
       </Form>
     </div>
   )
