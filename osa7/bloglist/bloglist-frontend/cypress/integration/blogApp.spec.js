@@ -35,7 +35,7 @@ describe('bloggers app', function() {
       cy.contains('new blog')
     })
     
-    describe('when blog has been created', function () {
+    describe.only('when blog has been created', function () {
       const testBlog = {
         title: 'Test Blog',
         author: 'Test Author',
@@ -54,7 +54,7 @@ describe('bloggers app', function() {
           .click()
       })
       
-      it('should show notification and be preset in list of blogs', function () {
+      it('should show notification and be added to list of blogs', function () {
         cy.contains(`a new blog ${testBlog.title} by ${testBlog.author}`)
         cy.get('[data-test=blogList]').should('have.length', 1)
       })
@@ -72,16 +72,32 @@ describe('bloggers app', function() {
         
         it('should add comments', function () {
           const comment = 'What a nice blog!'
-          cy.get('[data-test=commentList]').should('not.contain', comment)
+          cy.get('[data-test=commentList]').should('have.length', 0)
           cy.get('[data-test=commentInput]').type(comment)
           cy.get('[data-test=commentSubmit]').click()
           cy.get('[data-test=commentList]').contains(comment)
+          cy.get('[data-test=commentList]').should('have.length', 1)
+          
+          cy.get('[data-test=commentInput]').type(comment)
+          cy.get('[data-test=commentSubmit]').click()
+          cy.get('[data-test=commentList]').should('have.length', 2)
         })
         
         it('should delete blog', function () {
           cy.get('[data-test=deleteButton]').click()
           cy.get('[data-test=notification]').contains(`successfully removed ${testBlog.title} by ${testBlog.author}`)
         })
+      })
+    })
+    
+    describe('when browsing to users page', function () {
+      beforeEach(function () {
+        cy.get('[data-test=linkToUsers]').click()
+      })
+      
+      it('should display list of users', function () {
+        cy.get('[data-test=listOfUsers]').should('have.length', 1)
+        cy.get('[data-test=listOfUsers]').contains(testUser.name)
       })
     })
   })

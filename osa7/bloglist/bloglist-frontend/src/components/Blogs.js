@@ -28,9 +28,9 @@ const Blogs = props => {
         <BlogForm createBlog={createBlog} />
       </Togglable>
       <Table striped>
-        <tbody data-test={'blogList'}>
+        <tbody>
         {props.blogs.map(blog =>
-        <tr key={blog.id}>
+        <tr data-test={'blogList'} key={blog.id}>
           <td>
             <Link data-test={'linkToBlog'} to={`/blogs/${blog.id}`}>{blog.title}</Link>
           </td>

@@ -49,12 +49,12 @@ const ViewBlogNoHistory = props => {
           </div>
         </Card.Content>
       </Card>
-      <Comment.Group data-test={'commentList'} divided={'true'} relaxed={'true'} size={'large'}>
+      <Comment.Group divided={'true'} relaxed={'true'} size={'large'}>
         <Header as={'h3'} dividing>
           comments
         </Header>
         {props.blog.comments.map((comment, index) =>
-          <Comment key={index}>
+          <Comment data-test={'commentList'} key={index}>
             {comment}
           </Comment>
         )}

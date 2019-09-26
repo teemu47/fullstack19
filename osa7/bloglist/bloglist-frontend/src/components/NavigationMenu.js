@@ -16,7 +16,7 @@ const NavigationMenu = props => {
         <Link to={'/'}>blogs</Link>
       </Menu.Item>
       <Menu.Item>
-        <Link to={'/users'}>users</Link>
+        <Link data-test={'linkToUsers'} to={'/users'}>users</Link>
       </Menu.Item>
       <Menu.Menu position={'right'}>
         <Menu.Item>
